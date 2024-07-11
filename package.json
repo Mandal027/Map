@@ -1,0 +1,19 @@
+{
+  "name": "voice-enabled-gis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server ./public",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow-models/speech-commands": "^0.5.4",
+    "@tensorflow/tfjs": "^4.20.0",
+    "express": "^4.19.2",
+    "http-server": "^14.1.1"
+  }
+}
