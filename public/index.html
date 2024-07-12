@@ -13,73 +13,13 @@
   </style>
 </head>
 <body>
+  
   <div id="map"></div>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
   <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands"></script>
-  <script>
-    // Initialize the map
-    var map = L.map('map').setView([51.505, -0.09], 13);
-
-
-    
-
-    // // Adding OSM layer
-    // L.tileLayer.wms('https://ows.terrestris.de/osm/service', {
-    //         layers: 'OSM-WMS',
-    //         format: 'image/png',
-    //         transparent: true,
-    //         attribution: '© OpenStreetMap contributors'
-    //     }).addTo(map);
-
-
-
-
-    // Add a tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Initialize the speech-commands recognizer
-    const recognizer = speechCommands.create('BROWSER_FFT');
-    
-    async function init() {
-      await recognizer.ensureModelLoaded();
-      const words = recognizer.wordLabels(); // Get the words the recognizer is trained on
-      console.log(words);
-
-      recognizer.listen(result => {
-        const scores = result.scores; // Probability of prediction for each word
-        const highestScore = Math.max(...scores);
-        const commandIndex = scores.indexOf(highestScore);
-        const command = words[commandIndex];
-
-        console.log(`Command: ${command}, Score: ${highestScore}`);
-
-        // Implement command handling here
-        if (command === 'up') {
-          map.panBy([0, -100]);
-        } else if (command === 'down') {
-          map.panBy([0, 100]);
-        } else if (command === 'left') {
-          map.panBy([-100, 0]);
-        } else if (command === 'right') {
-          map.panBy([100, 0]);
-        } else if (command === 'zoom in') {
-          map.zoomIn();
-        } else if (command === 'zoom out') {
-          map.zoomOut();
-        }
-
-
-
-
-      }, {
-        probabilityThreshold: 0.75
-      });
-    }
-
-    init();
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="index.js"></script>
+  
 </body>
 </html>

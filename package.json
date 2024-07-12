@@ -13,7 +13,9 @@
   "dependencies": {
     "@tensorflow-models/speech-commands": "^0.5.4",
     "@tensorflow/tfjs": "^4.20.0",
+    "axios": "^1.7.2",
     "express": "^4.19.2",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "leaflet": "^1.9.4"
   }
 }
