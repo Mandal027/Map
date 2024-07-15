@@ -51,13 +51,14 @@ async function init() {
         } else if (command === 'right') {
             console.log('moving right');
             map.panBy([100, 0]);
-        } else if (command === 'magnify') {
+        } else if (command === 'zoomin') {
             console.log('zooming in');
             map.zoomIn();
-        } else if (command === 'zoom out') {
+        } else if (command === 'zoom-out') {
+            console.log('zooming out');
             map.zoomOut();
-        } else if (command.startsWith('go to ')) {
-            const place = command.slice(6); // Remove 'go to ' from the command
+        } else if (command.startsWith('six ')) {
+            const place = command.slice(4); // Remove 'go to ' from the command
             geocodePlace(place);
         } else if (command.startsWith('show ')) {
             const layerName = command.slice(5); // Remove 'show ' from the command
@@ -113,3 +114,57 @@ async function geocodeAndAddMarker(place) {
 }
 
 // init();
+
+
+
+
+// // Load the TensorFlow Lite model
+// const loadModel = async () => {
+//     const model = await tf.loadGraphModel('path/to/model.tflite');
+//     return model;
+// };
+// // Call loadModel when the page loads
+// window.onload = loadModel;
+
+// // Function to recognize speech command
+// const recognizeCommand = async (audioBuffer, model) => {
+//     const audioTensor = tf.tensor(audioBuffer); // Convert audio buffer to tensor
+//     const prediction = model.predict(audioTensor);
+//     const command = prediction.argMax(-1).dataSync()[0];
+//     console.log('Recognized command:', command);
+// };
+
+// // Example usage in your web application
+// document.getElementById('startRecognition').addEventListener('click', async () => {
+//     const model = await loadModel();
+//     const audioBuffer = getAudioBuffer(); // Function to get audio buffer from microphone
+//     recognizeCommand(audioBuffer, model);
+// });
+
+
+// let recognizer;
+
+async function loadModel() {
+    recognizer = await tf.loadLayersModel('model/model.json');
+    await recognizer.ensureModelLoaded();
+    console.log('Model Loaded');
+}
+
+async function startRecognition() {
+    if (!recognizer) {
+        await loadModel();
+    }
+
+    const words = recognizer.wordLabels();
+    recognizer.listen(result => {
+        const scores = result.scores;
+        const highestScore = Math.max(...scores);
+        const index = scores.indexOf(highestScore);
+        const command = words[index];
+        document.getElementById('result').innerText = `Command: ${command}`;
+    }, {
+        probabilityThreshold: 0.75
+    });
+}
+
+window.onload = loadModel;
